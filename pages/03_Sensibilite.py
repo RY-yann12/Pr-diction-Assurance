@@ -5,7 +5,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import streamlit as st
-from shap_utils import (  # Importez les fonctions de votre nouveau fichier streamlit_app.
+ # j'importe les fonctions de mon nouveau fichier streamlit_app.
+from shap_utils import ( 
     calculate_shap_values, load_model_and_data_for_shap, plot_shap_dependence,
     plot_shap_force, plot_shap_summary_bar, plot_shap_summary_dot)
 
@@ -24,7 +25,7 @@ st.set_page_config(layout="wide")
 st.title("🔬 Analyse de Sensibilité & Importance des Caractéristiques")
 st.markdown("Comprenez les facteurs les plus influents qui poussent les prédictions du modèle.")
 
-# --- Chargement des données d'importance ---
+# --------------------- Chargement des données d'importance ---------
 @st.cache_resource
 def load_importance_data():
     try:
