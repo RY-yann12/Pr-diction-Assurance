@@ -35,17 +35,23 @@ Navigue ensuite dans le menu à gauche pour accéder aux différentes pages :
 
 Prédiction : 
 Saisis les données d'un client pour obtenir sa probabilité de sinistre.
+
 Performance : 
 Visualise les métriques et courbes ROC/PR du modèle.
+
 Sensibilité : 
 Analyse l'importance des caractéristiques et l'interprétabilité locale (SHAP).
 Fonctionnalités
+
 Prédiction personnalisée : 
 Interface pour entrer les données d'un client et obtenir une prédiction.
+
 Analyse de performance : 
 Affichage des scores AUC, courbes ROC et Precision-Recall.
+
 Interprétabilité : 
 Visualisation des facteurs influents (importance globale et locale via SHAP).
+
 Sécurité : 
 Connexion requise pour accéder aux pages (identifiant de démo : test / mot de passe : data).
 -----------------------------------------------------------------------------------------------
