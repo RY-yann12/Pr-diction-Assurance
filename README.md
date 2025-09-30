@@ -1,4 +1,4 @@
-Identifiant de connection à l'application: test
+Identifiant de connection à l'application: test, 
 Code de connection: data
 ------------------------------------------------------------------------------------------------
 # Prédiction de Sinistres pour une Entreprise d'Assurance
