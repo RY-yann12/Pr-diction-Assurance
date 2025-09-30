@@ -8,7 +8,7 @@ import streamlit as st
 from sklearn.metrics import (auc, classification_report,
                              precision_recall_curve, roc_auc_score, roc_curve)
 
-# Vérifie l'état de connexion avant d'afficher la page
+# Vérification de  l'état de connexion avant d'afficher la page
 if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
     st.warning("Veuillez vous connecter pour accéder à cette page.")
     st.stop()
@@ -17,13 +17,12 @@ st.set_page_config(layout="wide")
 st.title("Analyse de Performance Globale du Modèle")
 st.markdown("Cette section présente les métriques et les courbes de performance du modèle XGBoost optimisé sur l'ensemble de test.")
 
-# --- Chargement des données de performance ---
+# ----------------Chargement des données de performance----------------
 @st.cache_resource
 def load_performance_data():
     try:
         performance_data = joblib.load('model_performance_data.pkl')
-        # Pour une vraie comparaison, tu devrais aussi sauvegarder les métriques des autres modèles
-        # et les charger ici. Pour l'instant, on se concentre sur le meilleur modèle.
+    
         return performance_data
     except FileNotFoundError:
         st.error("Les données de performance du modèle ('model_performance_data.pkl') n'ont pas été trouvées. Veuillez exécuter la phase 5 dans le notebook pour les générer.")
@@ -31,7 +30,7 @@ def load_performance_data():
 
 performance_data = load_performance_data()
 
-# Récupérer les données spécifiques du modèle optimisé
+# Récupération des données spécifiques du modèle optimisé
 roc_auc_xgb_tuned = performance_data['roc_auc_tuned']
 auc_pr_xgb_tuned = performance_data['auc_pr_tuned']
 fpr_xgb_tuned = performance_data['fpr_tuned']
