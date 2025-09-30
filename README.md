@@ -31,7 +31,7 @@ Lancement de l'application
 Pour démarrer l'application Streamlit :
 Streamlit run 
 ------------------------------------------------------------------------------------------------
-Navigue ensuite dans le menu à gauche pour accéder aux différentes pages :
+Navigue ensuite dans le menu à gauche pour accéder aux différentes pages 
 
 Prédiction : 
 Saisis les données d'un client pour obtenir sa probabilité de sinistre.
@@ -54,11 +54,14 @@ Visualisation des facteurs influents (importance globale et locale via SHAP).
 
 Sécurité : 
 Connexion requise pour accéder aux pages (identifiant de démo : test / mot de passe : data).
------------------------------------------------------------------------------------------------
 
 Fichiers importants
 Modèle XGBoost optimisé : streamlit_app/best_xgb_model.pkl
+
 Encodage OneHot : streamlit_app/onehot_encoder.pkl
+
 Standardisation : streamlit_app/standard_scaler.pkl
+
 Données de test : streamlit_app/X_y_test.pkl
+
 Données de performance : streamlit_app/model_performance_data.pkl
