@@ -4,11 +4,10 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-# Vérifie l'état de connexion avant d'afficher la page
+# Vérification de l'état de la connection
 if 'logged_in' not in st.session_state or not st.session_state['logged_in']:
-    st.warning("Veuillez vous connecter pour accéder à cette page.")
-    st.stop() # Arrête l'exécution de la page
-
+    st.warning("Veuillez vous connecter pour accéder à cette page.") 
+    st.stop() 
 st.set_page_config(layout="wide")
 st.title("Prédiction de la Probabilité de Sinistre")
 st.markdown("Entrez les données d'un client pour obtenir une prédiction de sa probabilité de sinistre.")
@@ -24,11 +23,11 @@ def load_prediction_components():
         return model, encoder, scaler, model_features
     except FileNotFoundError as e:
         st.error(f"Erreur de chargement des fichiers nécessaires. Assurez-vous que '{e.filename}' est dans le dossier 'streamlit_app/'.")
-        st.stop() # Arrête l'exécution si les fichiers ne sont pas trouvés
+        st.stop() 
 
 model, encoder, scaler, model_features = load_prediction_components()
 
-# --- Fonctions de Prétraitement pour une Nouvelle Entrée ---
+# ------------------------- Fonctions de Prétraitement pour une Nouvelle Entrée -------------------------
 def preprocess_new_data(input_data_df, encoder, scaler, model_features):
     # Feature Engineering
     input_data_df['prime_sur_revenu'] = input_data_df['prime_annuelle'] / input_data_df['revenu_mensuel']
