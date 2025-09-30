@@ -30,26 +30,26 @@ model, encoder, scaler, model_features = load_prediction_components()
 
 # --- Fonctions de Prétraitement pour une Nouvelle Entrée ---
 def preprocess_new_data(input_data_df, encoder, scaler, model_features):
-    # Appliquer le Feature Engineering (comme dans la Phase 3)
+    # Feature Engineering
     input_data_df['prime_sur_revenu'] = input_data_df['prime_annuelle'] / input_data_df['revenu_mensuel']
     input_data_df['prime_sur_revenu'].replace([np.inf, -np.inf], np.nan, inplace=True)
     input_data_df['prime_sur_revenu'].fillna(0, inplace=True)
     input_data_df['age_groupe'] = pd.cut(input_data_df['age'], bins=[18, 25, 40, 60, 85],
                                         labels=['Jeune', 'Adulte_Jeune', 'Adulte_Moyen', 'Senior'], right=False)
     
-    # Gérer les colonnes catégorielles
+    #  colonnes catégorielles
     categorical_features_to_encode = [
         'sexe', 'situation_familiale', 'localisation_cat', 'type_contrat', 'age_groupe'
     ]
     
-    # Appliquer l'encodage One-Hot
+    # encodage One-Hot
     encoded_features = encoder.transform(input_data_df[categorical_features_to_encode])
     encoded_df = pd.DataFrame(encoded_features, columns=encoder.get_feature_names_out(categorical_features_to_encode))
     
-    # Supprimer les colonnes catégorielles originales et concaténer les encodées
+    # Suppréssion des colonnes catégorielles originales et concaténation des encodées
     processed_df = pd.concat([input_data_df.drop(columns=categorical_features_to_encode), encoded_df], axis=1)
     
-    # Réorganiser et ajouter les colonnes manquantes
+    # Réorganisation et ajout des colonnes manquantes
     final_input_df = pd.DataFrame(columns=model_features)
     for col in model_features:
         if col in processed_df.columns:
@@ -57,7 +57,7 @@ def preprocess_new_data(input_data_df, encoder, scaler, model_features):
         else:
             final_input_df[col] = 0
     
-    # Appliquer le Scaling sur les colonnes numériques (sauf les binaires/ordinales qui ne sont pas scalées)
+    # Appliquation le Scaling sur les colonnes numériques
     numerical_cols_to_scale = [col for col in model_features if col in scaler.feature_names_in_]
     final_input_df[numerical_cols_to_scale] = scaler.transform(final_input_df[numerical_cols_to_scale])
     
