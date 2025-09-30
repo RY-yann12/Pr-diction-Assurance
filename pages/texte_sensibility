@@ -1,0 +1,65 @@
+#st.info("""
+#Pour comprendre *pourquoi* une prédiction spécifique a été faite pour un client donné (et non seulement les facteurs globaux),
+#on pourrait intégrer des techniques d'interprétabilité locale comme les **SHAP Values**.
+#Cela permettrait d'expliquer la contribution positive ou négative de chaque caractéristique à la probabilité de sinistre pour un client particulier.
+#""")
+"""
+# --- Utilisation des fonctions du shap_utils.py ---
+model, X_data_for_shap = load_model_and_data_for_shap()
+# Debugging information
+st.write("Aperçu brut des données SHAP :")
+st.write(type(X_data_for_shap))
+
+try:
+    st.write("Shape :", X_data_for_shap.shape)
+    st.write("Colonnes :", X_data_for_shap.columns)
+    st.dataframe(X_data_for_shap.head())
+except Exception as e:
+    st.error(f"Erreur en accédant à X_data_for_shap : {e}")
+
+
+if model is not None and X_data_for_shap is not None and not X_data_for_shap.empty:
+    st.write(f"Données chargées pour SHAP avec {X_data_for_shap.shape[0]} observations et {X_data_for_shap.shape[1]} caractéristiques.")
+
+    with st.spinner("Calcul des SHAP values (peut prendre un certain temps)..."):
+        explainer, shap_values = calculate_shap_values(model, X_data_for_shap)
+    st.success("Calcul des SHAP values terminé !")
+
+    if explainer is not None and shap_values is not None:
+        st.subheader("Explication d'une Prédiction Client Spécifique")
+        client_id = st.slider("Sélectionnez l'index d'un client pour l'analyse SHAP", 0, X_data_for_shap.shape[0] - 1, 0)
+
+        st.write(f"Analyse SHAP pour le client à l'index : **{client_id}**")
+
+        st.write("#### Force Plot (Contribution des Caractéristiques à la Prédiction)")
+        st.write("Le graphique ci-dessous montre comment chaque caractéristique pousse la prédiction du modèle du *base value* (moyenne des prédictions) vers la *output value* (prédiction pour ce client).")
+
+        fig_shap_force = plot_shap_force(explainer, shap_values[client_id,:], X_data_for_shap.iloc[client_id,:])
+        st.pyplot(fig_shap_force)
+
+        st.write("---")
+        st.subheader("Résumé Global des SHAP Values (Importance Globale par SHAP)")
+        st.write("Ces graphiques donnent une vue d'ensemble de l'impact moyen et de la distribution des contributions des caractéristiques sur l'ensemble des prédictions.")
+
+        st.write("#### Summary Plot (Importance et Impact des Caractéristiques - Barres)")
+        fig_shap_summary_bar = plot_shap_summary_bar(shap_values, X_data_for_shap)
+        st.pyplot(fig_shap_summary_bar)
+        
+        st.write("#### Summary Plot (Importance et Impact des Caractéristiques - Points)")
+        fig_shap_summary_dot = plot_shap_summary_dot(shap_values, X_data_for_shap)
+        st.pyplot(fig_shap_summary_dot)
+
+        st.write("---")
+        st.subheader("Dépendance des Caractéristiques (Dependency Plots)")
+        st.write("Ces graphiques montrent la relation entre la valeur d'une caractéristique et son impact SHAP sur la prédiction.")
+
+        selected_feature = st.selectbox("Sélectionnez une caractéristique pour le Dependency Plot", X_data_for_shap.columns)
+        fig_shap_dependence = plot_shap_dependence(selected_feature, shap_values, X_data_for_shap)
+        st.pyplot(fig_shap_dependence)
+
+    else:
+        st.error("Les SHAP values n'ont pas pu être calculées. Veuillez vérifier les logs d'erreur.")
+
+else:
+    st.warning("Impossible d'afficher l'analyse SHAP. Le modèle ou les données pour SHAP n'ont pas été chargés correctement.")
+"""
